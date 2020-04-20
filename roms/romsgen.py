@@ -250,6 +250,13 @@ bry = bry.assign_coords(
 )
 bry = bry.set_coords("h")
 
+obc = {
+    "north": False,
+    "south": False,
+    "east": False,
+    "west": True,
+}
+
 eta = ["eta_psi", "eta_rho", "eta_u", "eta_v"]
 xi = ["xi_psi", "xi_rho", "xi_u", "xi_v"]
 region = {
@@ -261,7 +268,7 @@ region = {
 brynames = set(bry.data_vars)
 for varname in brynames:
     field, boundary = varname.split("_")
-    if field not in ini:
+    if field not in ini or not obc[boundary]:
         print(f"deleting {varname}")
         del bry[varname]
         continue
